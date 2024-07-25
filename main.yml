@@ -1,0 +1,7 @@
+- name: Roboshop Project
+  hosts: all
+  become: true
+  vars:
+    dns_domain: vikramdevops.store
+  roles:
+  - "{{component}}"
