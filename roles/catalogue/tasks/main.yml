@@ -36,8 +36,8 @@
     state: restarted
     enabled: yes
 - name: Copy mongo repo file
-  src: mongo.repo
-  dest: /etc/yum.repos.d/mongo.repo
+  src: user.service
+  dest: /etc/yum.repos.d/user.service
 - name: Install mongo client
   ansible.builtin.dnf:
     name: mongodb-mongosh
