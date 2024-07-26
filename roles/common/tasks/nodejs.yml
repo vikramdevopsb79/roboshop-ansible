@@ -1,0 +1,16 @@
+- name: Enable NodeJS 20
+  ansible.builtin.shell: dnf module disable nodejs -y ; dnf module enable nodejs:20 -y
+
+- name: Install NodeJS
+  ansible.builtin.dnf:
+    name: nodejs
+    state: latest
+- name: Include App prequisties
+  ansible.builtin.include_tasks:
+    file: app-preq.yml
+- name:  Download dependencies
+  community.general.npm:
+    path: /app
+- name: Include SystemD
+  ansible.builtin.include_tasks:
+    file: systemd.yml

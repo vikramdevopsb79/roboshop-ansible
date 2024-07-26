@@ -1,0 +1,5 @@
+- name: Run NodeJS
+  ansible.builtin.role:
+    name: common
+    tasks_from: nodejs.yml
+
