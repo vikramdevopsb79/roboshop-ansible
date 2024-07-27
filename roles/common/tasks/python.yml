@@ -1,0 +1,20 @@
+- name: Install Maven
+  ansible.builtin.dnf:
+    name:
+      - python3
+      - gcc
+      - python3-devel
+    state: latest
+
+- name: Include App Pre-requisites
+  ansible.builtin.include_tasks:
+    file: app-prereq.yml
+
+- name: Download app dependencies
+  ansible.builtin.shell: pip3 install -r requirements.txt
+  args:
+    chdir: /app
+
+- name: Include SystemD
+  ansible.builtin.include_tasks:
+    file: systemd.yml

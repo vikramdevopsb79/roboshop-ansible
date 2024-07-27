@@ -1,0 +1,20 @@
+[Unit]
+Description=Payment Service
+
+[Service]
+User=root
+WorkingDirectory=/app
+Environment=CART_HOST=cart-{{env}}.{{dns_domain}}
+Environment=CART_PORT=8080
+Environment=USER_HOST=user-{{env}}.{{dns_domain}}
+Environment=USER_PORT=8080
+Environment=AMQP_HOST=rabbitmq-{{env}}.{{dns_domain}}
+Environment=AMQP_USER={{ secrets.app_user }}
+Environment=AMQP_PASS={{ secrets.app_password }}
+
+ExecStart=/usr/local/bin/uwsgi --ini payment.ini
+ExecStop=/bin/kill -9 $MAINPID
+SyslogIdentifier=payment
+
+[Install]
+WantedBy=multi-user.target

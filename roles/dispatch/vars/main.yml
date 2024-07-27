@@ -1,0 +1,2 @@
+component: dispatch
+secrets: "{{ lookup('hashi_vault', 'secret=roboshop-{{env}}/data/rabbitmq token={{ vault_token }} url=https://vault-internal.{{ dns_domain }}:8200 validate_certs=False')}}"

@@ -1,0 +1,4 @@
+- name: Run python in payment
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: python.yml

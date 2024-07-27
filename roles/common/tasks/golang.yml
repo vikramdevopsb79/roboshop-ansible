@@ -1,0 +1,15 @@
+- name: Install golang
+  ansible.builtin.dnf:
+    name: golang
+    state: latest
+- name: Include App Prequisties
+  ansible.builtin.include_tasks:
+    file: app-preq.yml
+- name: Download app dependencies
+  ansible.builtin.shell: go mod init dispatch ; go get ; go build
+  args:
+    chdir: /app
+
+- name: Include SystemD
+  ansible.builtin.include_tasks:
+    file: systemd.yml
