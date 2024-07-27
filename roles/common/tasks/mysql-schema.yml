@@ -1,0 +1,7 @@
+- name: Install mysql client install
+  ansible.builtin.dnf:
+    name: mysql
+    state: latest
+- name: Load  schema  files
+  loop: "{{ schema_files }}"
+  ansible.builtin.shell: mysql -h mysql-{{env}}.{{dns_domain}} -uroot -p{{secrets.ROOT_PASSWORD}} < /app/db/{{item}}.sql

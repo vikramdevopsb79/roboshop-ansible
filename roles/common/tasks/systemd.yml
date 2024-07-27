@@ -1,3 +1,7 @@
+- name: Include Schema
+  when: setup_schema is defined
+  ansible.builtin.include_tasks:
+    file: "{{schema_type}}-schema.yml"
 - name: set up systemd template to copy service
   ansible.builtin.template:
     src: "{{ component }}.service"
