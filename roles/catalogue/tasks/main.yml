@@ -1,46 +1,5 @@
-- name: disable nodejs module
-  ansible.builtin.shell: dnf module disable nodejs -y ; dnf module enable nodejs:20 -y
-- name: Install nodejs
-  ansible.builtin.dnf:
-    name: nodejs
-    state: latest
-- name: Add application user
-  ansible.builtin.user:
-    name: roboshop
-- name: Remove old directory
-  ansible.builtin.file:
-    name: /app
-    state: absent
-- name: Create directory
-  ansible.builtin.file:
-    name: /app
-    state: directory
-- name: Download and Extract App content
-  ansible.builtin.unarchive:
-    src: https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
-    dest: /app
-    remote_src: yes
+- name: Run NodeJS in catalogue
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: nodejs
 
-- name: Download app dependencies
-  community.general.npm:
-    path: /app
-- name: Setup systemd service file
-  ansible.builtin.template:
-    src: catalogue.service
-    dest: /etc/systemd/system/catalogue.service
-
-- name: Start catalogue service
-  ansible.builtin.systemd_service:
-    name: catalogue
-    daemon-reload: yes
-    state: restarted
-    enabled: yes
-- name: Copy mongo repo file
-  src: user.service
-  dest: /etc/yum.repos.d/user.service
-- name: Install mongo client
-  ansible.builtin.dnf:
-    name: mongodb-mongosh
-    state: latest
-- name: Load the master data schema
-  ansible.builtin.shell: mongosh --host mongo-dev.vikramdevops.store </app/db/master-data.js
