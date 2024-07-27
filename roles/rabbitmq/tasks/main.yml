@@ -1,0 +1,23 @@
+- name: copy rabbitmq module
+  ansible.builtin.copy:
+    src: rabbmitq.repo
+    dst: /etc/yum.repos.d/rabbmitq.repo
+- name: Install rabbitmq
+  ansible.builtin.dnf:
+    name: rabbitmq-server
+    state: latest
+
+- name: Start Rabbitmq Service
+  ansible.builtin.systemd_service:
+    name: rabbitmq-server
+    state: restarted
+
+- name: Add rabbitmq app user
+  community.rabbitmq.rabbitmq_user:
+    user: "{{secrets.app_user}}"
+    password: "{{secrets.app_password}}"
+    vhost: /
+    configure_priv: .*
+    read_priv: .*
+    write_priv: .*
+    state: present
